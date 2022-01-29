@@ -4,7 +4,7 @@ import Layout from "components/Layout"
 const Home: NextPage = () => {
   return (
     <Layout title="Tilda" description="Share your crypto addresses easily.">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <h1 className="text-3xl font-normal underline">Hello world!</h1>
     </Layout>
   )
 }

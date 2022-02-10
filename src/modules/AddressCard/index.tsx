@@ -5,7 +5,11 @@ import Button from "components/Button"
 import btcIcon from "assets/icons/crypto/btc.svg"
 import { copyToClipboard } from "utils"
 
-const AddressCard = () => {
+interface Props {
+  onSend?: () => void
+}
+
+const AddressCard = ({ onSend = () => null }: Props) => {
   const copyAddressText = async () => {
     try {
       await copyToClipboard("TMDE...")
@@ -34,6 +38,7 @@ const AddressCard = () => {
         text="Send"
         className="w-auto border border-solid border-blue-900 bg-white px-3 ml-3 group hover:bg-blue-900"
         textClassName="!text-blue-900 group-hover:!text-white"
+        onClick={onSend}
       />
     </div>
   )

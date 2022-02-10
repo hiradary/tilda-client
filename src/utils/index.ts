@@ -33,4 +33,14 @@ const copyToClipboard = (str: string) => {
   })
 }
 
-export { copyToClipboard }
+const convertRemToPixels = (remValue: number) => {
+  try {
+    return (
+      remValue * parseFloat(getComputedStyle(document.documentElement).fontSize)
+    )
+  } catch (err) {
+    return remValue * 16
+  }
+}
+
+export { copyToClipboard, convertRemToPixels }

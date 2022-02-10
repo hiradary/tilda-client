@@ -1,4 +1,5 @@
 import { ToastContainer } from "react-toastify"
+import { ModalContainer } from "reoverlay"
 import "react-toastify/dist/ReactToastify.css"
 import type { AppProps } from "next/app"
 
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         pauseOnHover
         theme="colored"
       />
+      <ModalContainer />
     </>
   )
 }

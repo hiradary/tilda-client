@@ -1,13 +1,20 @@
 import { useRouter } from "next/router"
+import { Reoverlay } from "reoverlay"
 
-import Layout from "components/Layout"
 import AddressCard from "modules/AddressCard"
+import AddressDetailModal from "modules/AddressDetailModal"
+import Layout from "components/Layout"
+import List from "components/List"
 
 const Profile = () => {
   const router = useRouter()
   const username = router.query?.username
 
   if (!username) return null
+
+  const showAddressDetailModal = () => {
+    Reoverlay.showModal(AddressDetailModal)
+  }
 
   return (
     <Layout title="User profile" description="Check out this user's profile.">
@@ -19,7 +26,7 @@ const Profile = () => {
           <h1 className="font-bold text-center text-4xl text-slate-900">
             Hirad Arshadi
           </h1>
-          <h3 className="text-center text-slate-500">@hiradary</h3>
+          <h3 className="text-center text-slate-500">@{username}</h3>
           <p className="text-center text-slate-900 mt-4 max-w-xs">
             Front-End Developer @digikalacom
           </p>
@@ -54,16 +61,22 @@ const Profile = () => {
           </div>
         </div>
 
-        <section className="w-full flex justify-center mt-12">
+        <section className="w-full flex justify-center my-12">
           <div className="w-full max-w-2xl px-2" role="table">
-            <h2 className="font-bold text-2xl mb-4">Addresses &nbsp; 💸</h2>
-            {[1, 2, 3, 4, 5, 6, 7].map((item) => {
-              return (
-                <div className="w-full mb-4" key={item}>
-                  <AddressCard />
-                </div>
-              )
-            })}
+            <h2 className="font-bold text-2xl mb-4">
+              Crypto Addresses &nbsp;💸
+            </h2>
+            <List
+              data={[1]}
+              emptyListTextMessage="No address found!"
+              renderItem={(item, index) => {
+                return (
+                  <div className="w-full mb-4" key={item}>
+                    <AddressCard onSend={showAddressDetailModal} />
+                  </div>
+                )
+              }}
+            />
           </div>
         </section>
       </main>

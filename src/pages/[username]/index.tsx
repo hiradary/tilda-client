@@ -1,20 +1,37 @@
-import { useRouter } from "next/router"
+import axios from "axios"
+import useSWR, { SWRConfig, unstable_serialize } from "swr"
 import { Reoverlay } from "reoverlay"
+import { GetServerSideProps } from "next"
 
 import AddressCard from "modules/AddressCard"
 import AddressDetailModal from "modules/AddressDetailModal"
 import Layout from "components/Layout"
 import List from "components/List"
+import { useUser } from "lib/auth"
 
-const Profile = () => {
-  const router = useRouter()
-  const username = router.query?.username
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { username } = context.query
+  const data = await axios.get(`/users/${username}`)
 
-  if (!username) return null
+  return {
+    props: {
+      username,
+      fallback: {
+        [unstable_serialize(["users", username])]: data,
+      },
+    },
+  }
+}
 
+const Profile = ({ username }) => {
+  const { data, isError, isLoading } = useUser(["users", username], username)
   const showAddressDetailModal = () => {
     Reoverlay.showModal(AddressDetailModal)
   }
+
+  console.log({ data, isLoading, isError })
+
+  if (isLoading || isError) return
 
   return (
     <Layout title="User profile" description="Check out this user's profile.">
@@ -24,9 +41,9 @@ const Profile = () => {
         </header>
         <div className="w-full flex flex-col items-center mt-2">
           <h1 className="font-bold text-center text-4xl text-slate-900">
-            Hirad Arshadi
+            {data.name}
           </h1>
-          <h3 className="text-center text-slate-500">@{username}</h3>
+          <h3 className="text-center text-slate-500">@{data.username}</h3>
           <p className="text-center text-slate-900 mt-4 max-w-xs">
             Front-End Developer @digikalacom
           </p>
@@ -67,7 +84,7 @@ const Profile = () => {
               Crypto Addresses &nbsp;💸
             </h2>
             <List
-              data={[1]}
+              data={data.addresses}
               emptyListTextMessage="No address found!"
               renderItem={(item, index) => {
                 return (
@@ -84,4 +101,12 @@ const Profile = () => {
   )
 }
 
-export default Profile
+const ProfilePage = ({ fallback, username }) => {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Profile username={username} />
+    </SWRConfig>
+  )
+}
+
+export default ProfilePage

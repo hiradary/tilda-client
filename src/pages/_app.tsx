@@ -3,7 +3,10 @@ import { ModalContainer } from "reoverlay"
 import "react-toastify/dist/ReactToastify.css"
 import type { AppProps } from "next/app"
 
+import configApi from "config/api"
 import "styles/globals.css"
+
+configApi()
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

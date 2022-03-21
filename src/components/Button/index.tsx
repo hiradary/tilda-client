@@ -2,15 +2,27 @@ interface Props {
   type?: "button" | "submit" | "reset"
   text: string
   className?: string
+  textClassName?: string
+  onClick?: () => void
+  loading?: boolean
 }
 
-const Button = ({ type = "button", text, className = "" }: Props) => {
+const Button = ({
+  type = "button",
+  text,
+  className = "",
+  textClassName = "",
+  onClick = () => null,
+  loading = false,
+}: Props) => {
   return (
     <button
       type={type}
-      className={`w-full h-10 flex justify-center items-center rounded-lg bg-blue-700 hover:bg-blue-800 transition${className}`}
+      className={`w-full h-10 flex justify-center items-center rounded-lg bg-blue-700 hover:bg-blue-800 transition disabled:bg-blue-900 disabled:cursor-not-allowed ${className}`}
+      onClick={onClick}
+      disabled={loading}
     >
-      <span className="text-white">{text}</span>
+      <span className={`text-white ${textClassName}`}>{text}</span>
     </button>
   )
 }

@@ -11,27 +11,27 @@ import { useUser } from "lib/auth"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username } = context.query
-  const data = await axios.get(`/users/${username}`)
+  // const data = await axios.get(`/users/${username}`)
 
   return {
     props: {
       username,
-      fallback: {
-        [unstable_serialize(["users", username])]: data,
-      },
+      // fallback: {
+      //   [unstable_serialize(["users", username])]: data,
+      // },
     },
   }
 }
 
 const Profile = ({ username }) => {
-  const { data, isError, isLoading } = useUser(["users", username], username)
+  // const { data, isError, isLoading } = useUser(["users", username], username)
   const showAddressDetailModal = () => {
     Reoverlay.showModal(AddressDetailModal)
   }
 
-  console.log({ data, isLoading, isError })
+  // console.log({ data, isLoading, isError })
 
-  if (isLoading || isError) return
+  // if (isLoading || isError) return
 
   return (
     <Layout title="User profile" description="Check out this user's profile.">
@@ -41,9 +41,9 @@ const Profile = ({ username }) => {
         </header>
         <div className="w-full flex flex-col items-center mt-2">
           <h1 className="font-bold text-center text-4xl text-slate-900">
-            {data.name}
+            Hirad Arshadi
           </h1>
-          <h3 className="text-center text-slate-500">@{data.username}</h3>
+          <h3 className="text-center text-slate-500">@hiradary</h3>
           <p className="text-center text-slate-900 mt-4 max-w-xs">
             Front-End Developer @digikalacom
           </p>
@@ -84,7 +84,7 @@ const Profile = ({ username }) => {
               Crypto Addresses &nbsp;💸
             </h2>
             <List
-              data={data.addresses}
+              data={[]}
               emptyListTextMessage="No address found!"
               renderItem={(item, index) => {
                 return (

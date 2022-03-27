@@ -2,31 +2,30 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import isEmail from "validator/es/lib/isEmail"
 
 import Layout from "components/Layout"
 import Input from "components/Input"
 import Button from "components/Button"
-import { signIn } from "lib/auth"
+import authService from "services/auth/service"
 import storage from "utils/storage"
+import useService from "hooks/useService"
 
 const SignIn = () => {
   const [btnLoading, setBtnLoading] = useState<boolean>(false)
-  const [email, setEmail] = useState<string>("hirad@gmail.com")
+  const [emailOrUsername, setEmailOrUsername] =
+    useState<string>("hirad@gmail.com")
   const [password, setPassword] = useState<string>("test123123")
-  const router = useRouter()
+  const authData = useService(
+    btnLoading
+      ? authService.signIn({
+          [isEmail(emailOrUsername) ? "email" : "username"]: emailOrUsername,
+          password,
+        })
+      : null
+  )
 
-  const handleSignIn = () => {
-    setBtnLoading(true)
-    signIn({ email, password })
-      .then(({ token, user: { username, name } }) => {
-        storage.set("AUTH_TOKEN", token)
-        router.push(`/${username}`)
-      })
-      .catch(() => {})
-      .finally(() => {
-        setBtnLoading(false)
-      })
-  }
+  const handleSignIn = () => {}
 
   return (
     <Layout title="Sign In" description="Sign in to tilda">
@@ -35,9 +34,9 @@ const SignIn = () => {
           <h1 className="font-bold text-4xl mb-8 text-slate-900">Sign In</h1>
           <Input
             placeholder="Email or Username"
-            value={email}
+            value={emailOrUsername}
             onChange={({ target: { value } }) => {
-              setEmail(value)
+              setEmailOrUsername(value)
             }}
           />
           <Input

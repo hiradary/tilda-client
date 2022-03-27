@@ -7,18 +7,17 @@ import AddressCard from "modules/AddressCard"
 import AddressDetailModal from "modules/AddressDetailModal"
 import Layout from "components/Layout"
 import List from "components/List"
-import { useUser } from "lib/auth"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username } = context.query
-  // const data = await axios.get(`/users/${username}`)
+  const data = await axios.get(`/users/${username}`)
 
   return {
     props: {
       username,
-      // fallback: {
-      //   [unstable_serialize(["users", username])]: data,
-      // },
+      fallback: {
+        [unstable_serialize(["users", username])]: data,
+      },
     },
   }
 }
@@ -52,7 +51,7 @@ const Profile = ({ username }) => {
               href="https://twitter.com/hiradary"
               className="flex items-center mx-2"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
             >
               <span className="icon-twitter text-blue-500 mr-1"></span>
               <span>hiradary</span>
@@ -61,7 +60,7 @@ const Profile = ({ username }) => {
               href="https://instagram.com/hiradary"
               className="flex items-center mx-2"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
             >
               <span className="icon-instagram text-pink-700 mr-1"></span>
               <span>hiradary</span>
@@ -70,7 +69,7 @@ const Profile = ({ username }) => {
               href="https://hiradary.me"
               className="flex items-center mx-2"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
             >
               <span className="icon-globe text-blue-900 mr-1"></span>
               <span>hiradary.me</span>
@@ -79,7 +78,7 @@ const Profile = ({ username }) => {
         </div>
 
         <section className="w-full flex justify-center my-12">
-          <div className="w-full max-w-2xl px-2" role="table">
+          <div className="w-full max-w-2xl px-2">
             <h2 className="font-bold text-2xl mb-4">
               Crypto Addresses &nbsp;💸
             </h2>

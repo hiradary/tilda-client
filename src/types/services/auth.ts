@@ -1,3 +1,5 @@
+import type { User } from "../"
+
 export interface SignUp {
   name: string
   email: string
@@ -9,3 +11,12 @@ export interface SignIn {
   email?: string
   password: string
 }
+
+// ----------- API Responses -----------
+
+export interface SignInResponse {
+  user: User
+  token: string
+}
+
+// ----------- End API Response --------

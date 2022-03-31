@@ -2,30 +2,43 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
-import isEmail from "validator/es/lib/isEmail"
+import isEmail from "validator/lib/isEmail"
 
 import Layout from "components/Layout"
 import Input from "components/Input"
 import Button from "components/Button"
 import authService from "services/auth/service"
 import storage from "utils/storage"
-import useService from "hooks/useService"
+import { AUTH_TOKEN } from "constants/index"
 
 const SignIn = () => {
-  const [btnLoading, setBtnLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [emailOrUsername, setEmailOrUsername] =
     useState<string>("hirad@gmail.com")
   const [password, setPassword] = useState<string>("test123123")
-  const authData = useService(
-    btnLoading
-      ? authService.signIn({
-          [isEmail(emailOrUsername) ? "email" : "username"]: emailOrUsername,
-          password,
-        })
-      : null
-  )
+  const router = useRouter()
 
-  const handleSignIn = () => {}
+  const handleSignIn = () => {
+    setIsLoading(true)
+
+    const idKey = isEmail(emailOrUsername) ? "email" : "username"
+
+    const formData = {
+      password,
+      [idKey]: emailOrUsername,
+    }
+
+    authService
+      .signIn(formData)
+      .then(({ token, user }) => {
+        storage.set(AUTH_TOKEN, token)
+        router.push(`/${user.username}`)
+      })
+      .catch(() => false)
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
 
   return (
     <Layout title="Sign In" description="Sign in to tilda">
@@ -49,7 +62,7 @@ const SignIn = () => {
             }}
           />
 
-          <Button text="Sign In" onClick={handleSignIn} loading={btnLoading} />
+          <Button text="Sign In" onClick={handleSignIn} disabled={isLoading} />
 
           <p className="mt-4 text-sm text-slate-900">
             Don't have an account?{" "}

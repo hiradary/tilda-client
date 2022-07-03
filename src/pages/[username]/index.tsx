@@ -6,11 +6,11 @@ import AddressDetailModal from "modules/AddressDetailModal"
 import Layout from "components/Layout"
 import List from "components/List"
 import request from "utils/request"
-import { User } from "types"
+import { User, Address } from "types"
 
 interface Props {
   user: User
-  addresses: any[]
+  addresses: Address[]
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -89,12 +89,12 @@ const Profile = ({ user, addresses }: Props) => {
               Crypto Addresses &nbsp;💸
             </h2>
             <List
-              data={[]}
+              data={addresses}
               emptyListTextMessage="No address found!"
               renderItem={(item, index) => {
                 return (
-                  <div className="w-full mb-4" key={item}>
-                    <AddressCard onSend={showAddressDetailModal} />
+                  <div className="w-full mb-4" key={item._id}>
+                    <AddressCard data={item} onSend={showAddressDetailModal} />
                   </div>
                 )
               }}

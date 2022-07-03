@@ -7,7 +7,7 @@ import { convertRemToPixels } from "utils"
 interface Props<T> {
   containerClassName?: string
   data: Array<T>
-  renderItem: (T, index: number) => JSX.Element
+  renderItem: (item: T, index: number) => JSX.Element
   emptyListTextMessage?: string
   ListEmptyComponent?: React.ReactNode
 }

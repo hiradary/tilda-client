@@ -84,7 +84,7 @@ const EditProfile = () => {
               renderItem={(item, index) => {
                 return (
                   <div className="w-full mb-4" key={index}>
-                    <AddressCard />
+                    <AddressCard data={null} />
                   </div>
                 )
               }}

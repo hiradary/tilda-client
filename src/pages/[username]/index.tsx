@@ -33,9 +33,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const Profile = ({ user, addresses }: Props) => {
-  console.log({ user, addresses })
-  const showAddressDetailModal = () => {
-    Reoverlay.showModal(AddressDetailModal)
+  const showAddressDetailModal = (addressItem: Address) => {
+    Reoverlay.showModal(AddressDetailModal, { addressItem })
   }
 
   return (
@@ -91,10 +90,13 @@ const Profile = ({ user, addresses }: Props) => {
             <List
               data={addresses}
               emptyListTextMessage="No address found!"
-              renderItem={(item, index) => {
+              renderItem={(item) => {
                 return (
                   <div className="w-full mb-4" key={item._id}>
-                    <AddressCard data={item} onSend={showAddressDetailModal} />
+                    <AddressCard
+                      data={item}
+                      onSend={() => showAddressDetailModal(item)}
+                    />
                   </div>
                 )
               }}

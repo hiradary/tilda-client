@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React from "react"
 
 interface Props {
-  type?: "text" | "password" | "url"
+  type?: "text" | "password" | "url" | "email"
   placeholder?: string
   className?: string
   icon?: React.ReactNode
@@ -10,6 +10,7 @@ interface Props {
   textareaClassName?: string
   disabled?: boolean
   value?: string
+  name?: string
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
@@ -19,6 +20,7 @@ const Input = ({
   type = "text",
   placeholder = "",
   className = "",
+  name = "",
   icon = null,
   containerClassName = "",
   isTextarea = false,
@@ -27,8 +29,6 @@ const Input = ({
   value = "",
   onChange = () => null,
 }: Props) => {
-  const [text, setText] = useState<string>(value)
-
   return (
     <div className={`w-full relative flex items-center ${containerClassName}`}>
       {icon ? <div className="absolute left-3">{icon}</div> : null}
@@ -37,11 +37,9 @@ const Input = ({
           className={`w-full min-h-[7.5rem] border border-solid border-slate-300 rounded-lg p-2 text-slate-900 ${textareaClassName}`}
           placeholder={placeholder}
           disabled={disabled}
-          value={text}
-          onChange={(event) => {
-            setText(event.target.value)
-            onChange(event)
-          }}
+          name={name}
+          value={value}
+          onChange={onChange}
         ></textarea>
       ) : (
         <input
@@ -51,11 +49,9 @@ const Input = ({
             icon ? "pl-9" : ""
           } ${className}`}
           disabled={disabled}
-          value={text}
-          onChange={(event) => {
-            setText(event.target.value)
-            onChange(event)
-          }}
+          name={name}
+          value={value}
+          onChange={onChange}
         />
       )}
     </div>

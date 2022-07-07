@@ -1,7 +1,7 @@
 import type { User } from "../"
 
 export interface SignUp {
-  name: string
+  fullname: string
   email: string
   password: string
 }

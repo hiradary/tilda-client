@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const user = {
     _id: data._id,
     email: data.email,
-    name: data.name,
+    fullname: data.fullname,
     username: data.username,
   }
   const addresses = data.addresses
@@ -45,7 +45,7 @@ const Profile = ({ user, addresses }: Props) => {
         </header>
         <div className="w-full flex flex-col items-center mt-2">
           <h1 className="font-bold text-center text-4xl text-slate-900">
-            {user.name}
+            {user.fullname}
           </h1>
           <h3 className="text-center text-slate-500">@{user.username}</h3>
           <p className="text-center text-slate-900 mt-4 max-w-xs">

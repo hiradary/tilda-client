@@ -7,14 +7,6 @@ import Button from "components/Button"
 import AddressCard from "modules/AddressCard"
 import AddressFormModal from "modules/AddressFormModal"
 
-const ADDRESSES = [
-  {
-    id: "1",
-    network: "BTC",
-    address: "bc1qperxj05jttjcdujskxkn244jrk55n70wyla2rl",
-  },
-]
-
 const EditProfile = () => {
   const showAddressFormModal = () => {
     Reoverlay.showModal(AddressFormModal)

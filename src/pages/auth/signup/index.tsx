@@ -1,18 +1,21 @@
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 import Layout from "components/Layout"
 import Input from "components/Input"
 import Button from "components/Button"
+import authService from "services/auth/service"
+import storage from "utils/storage"
+import type { SignUp as ISignUp } from "types/services/auth"
+import { AUTH_TOKEN } from "constants/index"
 
-interface SignUpFields {
-  email: string
-  password: string
-  fullname: string
+interface SignUpFields extends ISignUp {
   isLoading: boolean
 }
 
 const SignUp = () => {
+  const router = useRouter()
   const [state, setState] = useState<SignUpFields>({
     email: "",
     password: "",
@@ -24,7 +27,26 @@ const SignUp = () => {
     setState((prevState) => ({ ...prevState, [key]: value }))
   }
 
-  const handleSubmit = () => {}
+  const handleSubmit = () => {
+    handleStateChange("isLoading", true)
+    const { email, fullname, password } = state
+
+    authService
+      .signUp({ email, fullname, password })
+      .then(
+        ({
+          username,
+          token,
+        }: ISignUp & { token: string; username: string }) => {
+          storage.set(AUTH_TOKEN, token)
+          router.push(`/${username}`)
+        }
+      )
+      .catch(() => false)
+      .finally(() => {
+        handleStateChange("isLoading", false)
+      })
+  }
 
   return (
     <Layout title="Sign Up" description="Sign up to tilda">

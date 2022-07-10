@@ -13,9 +13,8 @@ import { AUTH_TOKEN } from "constants/index"
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [emailOrUsername, setEmailOrUsername] =
-    useState<string>("hirad@gmail.com")
-  const [password, setPassword] = useState<string>("test123123")
+  const [emailOrUsername, setEmailOrUsername] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
   const router = useRouter()
 
   const handleSignIn = () => {

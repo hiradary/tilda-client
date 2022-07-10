@@ -5,9 +5,9 @@ import Input from "components/Input"
 import Button from "components/Button"
 
 const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+  { value: "bitcoin", label: "Bitcoin" },
+  { value: "ethereum", label: "Ethereum" },
+  { value: "tether", label: "Tether" },
 ]
 
 const AddressFormModal = () => {

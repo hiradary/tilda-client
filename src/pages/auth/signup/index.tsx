@@ -5,18 +5,19 @@ import { useRouter } from "next/router"
 import Layout from "components/Layout"
 import Input from "components/Input"
 import Button from "components/Button"
-import authService from "services/auth/service"
+import authService from "services/auth"
 import storage from "utils/storage"
 import type { SignUp as ISignUp } from "types/services/auth"
 import { AUTH_TOKEN } from "constants/index"
+import { setRequestAuthToken } from "utils/request"
 
-interface SignUpFields extends ISignUp {
+interface SignUpFormFields extends ISignUp {
   isLoading: boolean
 }
 
 const SignUp = () => {
   const router = useRouter()
-  const [state, setState] = useState<SignUpFields>({
+  const [state, setState] = useState<SignUpFormFields>({
     email: "",
     password: "",
     fullname: "",
@@ -38,6 +39,7 @@ const SignUp = () => {
           username,
           token,
         }: ISignUp & { token: string; username: string }) => {
+          setRequestAuthToken(token)
           storage.set(AUTH_TOKEN, token)
           router.push(`/${username}`)
         }
@@ -51,7 +53,7 @@ const SignUp = () => {
   return (
     <Layout title="Sign Up" description="Sign up to tilda">
       <div className="w-full min-h-screen h-full flex justify-center items-center">
-        <div className="w-96 p-4 container flex flex-col items-center">
+        <form className="w-96 p-4 container flex flex-col items-center">
           <h1 className="font-bold text-4xl mb-8 text-slate-900">Sign Up</h1>
           <Input
             name="fullname"
@@ -83,6 +85,7 @@ const SignUp = () => {
           />
 
           <Button
+            type="submit"
             text="Sign Up"
             disabled={state.isLoading}
             onClick={handleSubmit}
@@ -95,7 +98,7 @@ const SignUp = () => {
             </Link>
             .
           </p>
-        </div>
+        </form>
       </div>
     </Layout>
   )

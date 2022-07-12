@@ -10,9 +10,12 @@ const request = axios.create({
 
 request.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded"
-request.defaults.headers.common["Authorization"] = `Bearer ${storage.get(
-  AUTH_TOKEN
-)}`
+
+const setRequestAuthToken = (token: string) => {
+  request.defaults.headers.common["Authorization"] = `Bearer ${token}`
+}
+
+setRequestAuthToken(storage.get(AUTH_TOKEN))
 
 request.interceptors.response.use(
   (response) => {
@@ -38,3 +41,4 @@ request.interceptors.response.use(
 )
 
 export default request
+export { setRequestAuthToken }

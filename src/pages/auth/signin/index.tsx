@@ -7,9 +7,10 @@ import isEmail from "validator/lib/isEmail"
 import Layout from "components/Layout"
 import Input from "components/Input"
 import Button from "components/Button"
-import authService from "services/auth/service"
+import authService from "services/auth"
 import storage from "utils/storage"
 import { AUTH_TOKEN } from "constants/index"
+import { setRequestAuthToken } from "utils/request"
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -31,6 +32,7 @@ const SignIn = () => {
       .signIn(formData)
       .then(({ token, user }) => {
         storage.set(AUTH_TOKEN, token)
+        setRequestAuthToken(token)
         router.push(`/${user.username}`)
       })
       .catch(() => false)
@@ -42,7 +44,7 @@ const SignIn = () => {
   return (
     <Layout title="Sign In" description="Sign in to tilda">
       <div className="w-full min-h-screen h-full flex justify-center items-center">
-        <div className="w-96 p-4 container flex flex-col items-center">
+        <form className="w-96 p-4 container flex flex-col items-center">
           <h1 className="font-bold text-4xl mb-8 text-slate-900">Sign In</h1>
           <Input
             placeholder="Email or Username"
@@ -61,7 +63,12 @@ const SignIn = () => {
             }}
           />
 
-          <Button text="Sign In" onClick={handleSignIn} disabled={isLoading} />
+          <Button
+            type="submit"
+            text="Sign In"
+            onClick={handleSignIn}
+            disabled={isLoading}
+          />
 
           <p className="mt-4 text-sm text-slate-900">
             Don't have an account?{" "}
@@ -70,7 +77,7 @@ const SignIn = () => {
             </Link>{" "}
             today.
           </p>
-        </div>
+        </form>
       </div>
     </Layout>
   )

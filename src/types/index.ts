@@ -3,6 +3,12 @@ export interface User {
   fullname?: string
   email?: string
   username?: string
+  bio?: string
+  socials?: {
+    instagram: string
+    twitter: string
+    website: string
+  }
 }
 
 export interface Network {
@@ -17,4 +23,10 @@ export interface Address {
   address: string
   network: Network
   createdBy: string
+}
+
+export interface Socials {
+  instagram: string
+  twitter: string
+  website: string
 }

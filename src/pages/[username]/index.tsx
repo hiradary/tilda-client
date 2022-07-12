@@ -21,6 +21,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     email: data.email,
     fullname: data.fullname,
     username: data.username,
+    socials: data.socials,
+    bio: data.bio,
   }
   const addresses = data.addresses
 
@@ -48,37 +50,41 @@ const Profile = ({ user, addresses }: Props) => {
             {user.fullname}
           </h1>
           <h3 className="text-center text-slate-500">@{user.username}</h3>
-          <p className="text-center text-slate-900 mt-4 max-w-xs">
-            Front-End Developer @digikalacom
-          </p>
+          <p className="text-center text-slate-900 mt-4 max-w-xs">{user.bio}</p>
           <div className="flex items-center mt-2">
-            <a
-              href="https://twitter.com/hiradary"
-              className="flex items-center mx-2"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <span className="icon-twitter text-blue-500 mr-1"></span>
-              <span>hiradary</span>
-            </a>
-            <a
-              href="https://instagram.com/hiradary"
-              className="flex items-center mx-2"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <span className="icon-instagram text-pink-700 mr-1"></span>
-              <span>hiradary</span>
-            </a>
-            <a
-              href="https://hiradary.me"
-              className="flex items-center mx-2"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <span className="icon-globe text-blue-900 mr-1"></span>
-              <span>hiradary.me</span>
-            </a>
+            {user.socials.twitter && (
+              <a
+                href={`https://twitter.com/${user.socials.twitter}`}
+                className="flex items-center mx-2"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <span className="icon-twitter text-blue-500 mr-1"></span>
+                <span>{user.socials.twitter}</span>
+              </a>
+            )}
+            {user.socials.instagram && (
+              <a
+                href={`https://instagram.com/${user.socials.instagram}`}
+                className="flex items-center mx-2"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <span className="icon-instagram text-pink-700 mr-1"></span>
+                <span>{user.socials.instagram}</span>
+              </a>
+            )}
+            {user.socials.website && (
+              <a
+                href={user.socials.website}
+                className="flex items-center mx-2"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <span className="icon-globe text-blue-900 mr-1"></span>
+                <span>{user.socials.website}</span>
+              </a>
+            )}
           </div>
         </div>
 

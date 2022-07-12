@@ -9,7 +9,7 @@ const initialState: AuthContextState = {
   user: {
     _id: "",
     email: "",
-    name: "",
+    fullname: "",
     username: "",
   },
 }

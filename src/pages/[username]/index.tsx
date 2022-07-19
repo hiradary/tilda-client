@@ -1,12 +1,15 @@
 import { Reoverlay } from "reoverlay"
 import { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
 
 import AddressCard from "modules/AddressCard"
 import AddressDetailModal from "modules/AddressDetailModal"
 import Layout from "components/Layout"
 import List from "components/List"
 import request from "utils/request"
+import { withHttp } from "utils"
 import { User, Address } from "types"
+import { useAuth } from "hooks/useAuth"
 
 interface Props {
   user: User
@@ -35,6 +38,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const Profile = ({ user, addresses }: Props) => {
+  const authState = useAuth((state) => state.user)
+  const router = useRouter()
   const showAddressDetailModal = (addressItem: Address) => {
     Reoverlay.showModal(AddressDetailModal, { addressItem })
   }
@@ -47,7 +52,7 @@ const Profile = ({ user, addresses }: Props) => {
         </header>
         <div className="w-full flex flex-col items-center mt-2">
           <h1 className="font-bold text-center text-4xl text-slate-900">
-            {user.fullname}
+            {user.fullname} {authState._id === user._id ? "(Me!)" : null}
           </h1>
           <h3 className="text-center text-slate-500">@{user.username}</h3>
           <p className="text-center text-slate-900 mt-4 max-w-xs">{user.bio}</p>
@@ -76,7 +81,7 @@ const Profile = ({ user, addresses }: Props) => {
             )}
             {user.socials.website && (
               <a
-                href={user.socials.website}
+                href={withHttp(user.socials.website)}
                 className="flex items-center mx-2"
                 target="_blank"
                 rel="noreferrer noopener"

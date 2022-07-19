@@ -43,4 +43,6 @@ const convertRemToPixels = (remValue: number) => {
   }
 }
 
-export { copyToClipboard, convertRemToPixels }
+const withHttp = (url) => (!/^https?:\/\//i.test(url) ? `https://${url}` : url)
+
+export { copyToClipboard, convertRemToPixels, withHttp }

@@ -11,11 +11,13 @@ import authService from "services/auth"
 import storage from "utils/storage"
 import { AUTH_TOKEN } from "constants/index"
 import { setRequestAuthToken } from "utils/request"
+import { useAuth } from "hooks/useAuth"
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [emailOrUsername, setEmailOrUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const setUser = useAuth((state) => state.setUser)
   const router = useRouter()
 
   const handleSignIn = () => {
@@ -33,6 +35,7 @@ const SignIn = () => {
       .then(({ token, user }) => {
         storage.set(AUTH_TOKEN, token)
         setRequestAuthToken(token)
+        setUser(user)
         router.push(`/${user.username}`)
       })
       .catch(() => false)

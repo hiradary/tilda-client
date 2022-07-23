@@ -21,7 +21,7 @@ const AddressDetailModal = ({ addressItem }: { addressItem: Address }) => {
 
   if (!addressItem) return null
 
-  const { _id, address, network } = addressItem
+  const { _id, address } = addressItem
 
   return (
     <ModalWrapper>
@@ -29,12 +29,12 @@ const AddressDetailModal = ({ addressItem }: { addressItem: Address }) => {
         <header className="w-full flex items-center">
           <Image
             src={btcIcon}
-            alt={network.name}
+            alt={""}
             width={convertRemToPixels(1.5)}
             height={convertRemToPixels(1.5)}
           />
           <h3 className="font-bold text-slate-900 text-2xl text-left ml-2">
-            Send {network.name} ({network.symbol})
+            Send {"network.name"} ({"network.symbol"})
           </h3>
         </header>
 

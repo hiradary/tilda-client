@@ -11,17 +11,10 @@ export interface User {
   }
 }
 
-export interface Network {
-  _id: string
-  name: string
-  symbol: string
-}
-
 export interface Address {
   _id: string
   name: string
   address: string
-  network: Network
   createdBy: string
 }
 

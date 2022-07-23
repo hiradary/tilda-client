@@ -30,11 +30,11 @@
 
 @font-face {
   font-family: "icomoon";
-  src: url("../assets/fonts/eot/icomoon.eot?mdtk9e#iefix")
+  src: url("../assets/fonts/eot/icomoon.eot?zdlssr#iefix")
       format("embedded-opentype"),
-    url("../assets/fonts/ttf/icomoon.ttf?mdtk9e") format("truetype"),
-    url("../assets/fonts/woff/icomoon.woff?mdtk9e") format("woff"),
-    url("../assets/fonts/svg/icomoon.svg?mdtk9e#icomoon") format("svg");
+    url("../assets/fonts/ttf/icomoon.ttf?zdlssr") format("truetype"),
+    url("../assets/fonts/woff/icomoon.woff?zdlssr") format("woff"),
+    url("../assets/fonts/svg/icomoon.svg?zdlssr#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -56,20 +56,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-copy:before {
+.icon-instagram:before {
   content: "\e900";
 }
-.icon-qrcode:before {
+.icon-twitter:before {
   content: "\e901";
+}
+.icon-edit:before {
+  content: "\e905";
+}
+.icon-copy:before {
+  content: "\e92c";
+}
+.icon-qrcode:before {
+  content: "\e938";
 }
 .icon-globe:before {
   content: "\e9ca";
-}
-.icon-instagram:before {
-  content: "\ea92";
-}
-.icon-twitter:before {
-  content: "\ea96";
 }
 
 html,

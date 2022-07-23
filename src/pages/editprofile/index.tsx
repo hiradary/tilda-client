@@ -1,6 +1,5 @@
-import { useReducer } from "react"
+import { useReducer, useEffect } from "react"
 import { Reoverlay } from "reoverlay"
-import { GetServerSideProps } from "next"
 import omit from "lodash.omit"
 import { useRouter } from "next/router"
 import { toast } from "react-toastify"
@@ -11,21 +10,11 @@ import List from "components/List"
 import Button from "components/Button"
 import AddressCard from "modules/AddressCard"
 import AddressFormModal from "modules/AddressFormModal"
-import request from "utils/request"
-import { User, Address, Socials } from "types"
+import { User, Socials } from "types"
 import profileService from "services/profile"
+import { useAuth } from "hooks/useAuth"
 
-interface Props {
-  user: User
-  addresses: Address[]
-}
-
-interface EditProfileFormFields {
-  email: string
-  fullname: string
-  username: string
-  socials: Socials
-  bio: string
+interface EditProfileFormFields extends User {
   isLoading: boolean
 }
 
@@ -43,36 +32,12 @@ interface SetSocials {
 
 interface SetState {
   type: "set_state"
-  payload: {
-    [key: string]: string
-  }
+  payload: Partial<User>
 }
 
 type EditProfileFormActions = SetLoading | SetSocials | SetState
 
 // End Actions
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { username } = context.query
-  const { data } = await request.get(`/users/profile/${username}`)
-
-  const user = {
-    _id: data._id,
-    email: data.email,
-    fullname: data.fullname,
-    username: data.username,
-    socials: data.socials,
-    bio: data.bio,
-  }
-  const addresses = data.addresses
-
-  return {
-    props: {
-      user,
-      addresses,
-    },
-  }
-}
 
 const reducer = (
   state: EditProfileFormFields,
@@ -90,19 +55,11 @@ const reducer = (
   }
 }
 
-const EditProfile = ({ user, addresses }: Props) => {
-  const { email, fullname, username, socials, bio } = user
+const EditProfile = () => {
+  const user = useAuth((state) => state.user)
   const initialState: EditProfileFormFields = {
-    email: email || "",
-    fullname: fullname || "",
+    ...user,
     isLoading: false,
-    username: username || "",
-    socials: {
-      instagram: socials.instagram || "",
-      twitter: socials.twitter || "",
-      website: socials.website || "",
-    },
-    bio: bio || "",
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -139,6 +96,10 @@ const EditProfile = ({ user, addresses }: Props) => {
       })
   }
 
+  useEffect(() => {
+    dispatch({ type: "set_state", payload: user })
+  }, [user])
+
   return (
     <Layout
       title="Edit your profile"
@@ -173,6 +134,14 @@ const EditProfile = ({ user, addresses }: Props) => {
                   handleStateChange("username", value)
                 }}
                 containerClassName="my-4"
+              />
+              <Input
+                placeholder="Email"
+                value={state.email}
+                onChange={({ target: { value } }) => {
+                  handleStateChange("email", value)
+                }}
+                containerClassName="mb-4"
               />
               <Input
                 placeholder="Twitter handle (@yourusername)"

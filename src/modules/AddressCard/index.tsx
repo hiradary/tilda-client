@@ -31,7 +31,7 @@ const AddressCard = ({ onSend = () => null, data }: Props) => {
     >
       <Image src={btcIcon} alt="Bitcoin" />
       <span role="cell" className="font-bold text-slate-900 ml-4">
-        {data.network.symbol}
+        {"data.network.symbol"}
       </span>
       <p role="cell" className="flex-1 pl-8 whitespace-nowrap">
         {data.address}

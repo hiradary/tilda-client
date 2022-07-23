@@ -1,14 +1,6 @@
-import Select from "react-select"
-
 import ModalWrapper from "components/ModalWrapper"
 import Input from "components/Input"
 import Button from "components/Button"
-
-const options = [
-  { value: "bitcoin", label: "Bitcoin" },
-  { value: "ethereum", label: "Ethereum" },
-  { value: "tether", label: "Tether" },
-]
 
 const AddressFormModal = () => {
   return (
@@ -20,11 +12,11 @@ const AddressFormModal = () => {
 
         <form className="w-full flex flex-col">
           <div className="w-full mb-4">
-            <Select options={options} />
+            <Input placeholder="Name; e.g My USDT (TRC-20) address" />
           </div>
 
           <div className="w-full mb-8">
-            <Input placeholder="Address" />
+            <Input placeholder="Crypto address" />
           </div>
           <Button type="submit" text="Submit" />
         </form>

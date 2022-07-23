@@ -1,6 +1,7 @@
 import { Reoverlay } from "reoverlay"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
+import Link from "next/link"
 
 import AddressCard from "modules/AddressCard"
 import AddressDetailModal from "modules/AddressDetailModal"
@@ -10,6 +11,7 @@ import request from "utils/request"
 import { withHttp } from "utils"
 import { User, Address } from "types"
 import { useAuth } from "hooks/useAuth"
+import Button from "components/Button"
 
 interface Props {
   user: User
@@ -52,7 +54,7 @@ const Profile = ({ user, addresses }: Props) => {
         </header>
         <div className="w-full flex flex-col items-center mt-2">
           <h1 className="font-bold text-center text-4xl text-slate-900">
-            {user.fullname} {authState._id === user._id ? "(Me!)" : null}
+            {user.fullname}
           </h1>
           <h3 className="text-center text-slate-500">@{user.username}</h3>
           <p className="text-center text-slate-900 mt-4 max-w-xs">{user.bio}</p>
@@ -90,6 +92,14 @@ const Profile = ({ user, addresses }: Props) => {
                 <span>{user.socials.website}</span>
               </a>
             )}
+          </div>
+          <div className="mt-4">
+            <Link href="/editprofile">
+              <a className="flex items-center text-sm text-slate-500 border p-2 py-1 rounded hover:text-white hover:bg-slate-500 transition">
+                <span className="icon-edit pr-2"></span>
+                Edit profile
+              </a>
+            </Link>
           </div>
         </div>
 

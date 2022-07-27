@@ -30,11 +30,11 @@
 
 @font-face {
   font-family: "icomoon";
-  src: url("../assets/fonts/eot/icomoon.eot?zdlssr#iefix")
+  src: url("../assets/fonts/eot/icomoon.eot?pi7cbw#iefix")
       format("embedded-opentype"),
-    url("../assets/fonts/ttf/icomoon.ttf?zdlssr") format("truetype"),
-    url("../assets/fonts/woff/icomoon.woff?zdlssr") format("woff"),
-    url("../assets/fonts/svg/icomoon.svg?zdlssr#icomoon") format("svg");
+    url("../assets/fonts/ttf/icomoon.ttf?pi7cbw") format("truetype"),
+    url("../assets/fonts/woff/icomoon.woff?pi7cbw") format("woff"),
+    url("../assets/fonts/svg/icomoon.svg?pi7cbw#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -73,6 +73,9 @@
 }
 .icon-globe:before {
   content: "\e9ca";
+}
+.icon-remove:before {
+  content: "\e9ac";
 }
 
 html,

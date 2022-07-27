@@ -1,6 +1,5 @@
 import { Reoverlay } from "reoverlay"
 import { GetServerSideProps } from "next"
-import { useRouter } from "next/router"
 import Link from "next/link"
 
 import AddressCard from "modules/AddressCard"
@@ -11,7 +10,6 @@ import request from "utils/request"
 import { withHttp } from "utils"
 import { User, Address } from "types"
 import { useAuth } from "hooks/useAuth"
-import Button from "components/Button"
 
 interface Props {
   user: User
@@ -41,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Profile = ({ user, addresses }: Props) => {
   const authState = useAuth((state) => state.user)
-  const router = useRouter()
+  const isMine = authState._id === user._id
   const showAddressDetailModal = (addressItem: Address) => {
     Reoverlay.showModal(AddressDetailModal, { addressItem })
   }
@@ -93,14 +91,16 @@ const Profile = ({ user, addresses }: Props) => {
               </a>
             )}
           </div>
-          <div className="mt-4">
-            <Link href="/editprofile">
-              <a className="flex items-center text-sm text-slate-500 border p-2 py-1 rounded hover:text-white hover:border-slate-500 hover:bg-slate-500 transition">
-                <span className="icon-edit pr-2"></span>
-                Edit profile
-              </a>
-            </Link>
-          </div>
+          {isMine && (
+            <div className="mt-4">
+              <Link href="/editprofile">
+                <a className="flex items-center text-sm text-slate-500 border p-2 py-1 rounded hover:text-white hover:border-slate-500 hover:bg-slate-500 transition">
+                  <span className="icon-edit pr-2"></span>
+                  Edit profile
+                </a>
+              </Link>
+            </div>
+          )}
         </div>
 
         <section className="w-full flex justify-center my-12">
@@ -115,6 +115,7 @@ const Profile = ({ user, addresses }: Props) => {
                 return (
                   <div className="w-full mb-4" key={item._id}>
                     <AddressCard
+                      isMine={isMine}
                       data={item}
                       onSend={() => showAddressDetailModal(item)}
                     />

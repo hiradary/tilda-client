@@ -30,4 +30,5 @@ export interface Cryptocurrency {
   _id: string
   name: string
   symbol: string
+  logo: string
 }

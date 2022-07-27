@@ -4,7 +4,6 @@ import { toast } from "react-toastify"
 
 import ModalWrapper from "components/ModalWrapper"
 import Input from "components/Input"
-import btcIcon from "assets/icons/crypto/btc.svg"
 import { convertRemToPixels, copyToClipboard } from "utils"
 import { Address } from "types"
 
@@ -21,20 +20,20 @@ const AddressDetailModal = ({ addressItem }: { addressItem: Address }) => {
 
   if (!addressItem) return null
 
-  const { _id, address } = addressItem
+  const { _id, address, crypto } = addressItem
 
   return (
     <ModalWrapper>
       <div className="w-full h-full flex flex-col">
         <header className="w-full flex items-center">
           <Image
-            src={btcIcon}
+            src={crypto.logo}
             alt={""}
             width={convertRemToPixels(1.5)}
             height={convertRemToPixels(1.5)}
           />
           <h3 className="font-bold text-slate-900 text-2xl text-left ml-2">
-            Send {"network.name"} ({"network.symbol"})
+            Send {crypto.name} ({crypto.symbol})
           </h3>
         </header>
 
@@ -44,7 +43,11 @@ const AddressDetailModal = ({ addressItem }: { addressItem: Address }) => {
 
         <div className="w-full flex items-center justify-end relative">
           <Input value={address} disabled />
-          <button className="absolute z-10 right-2" onClick={copyAddressText}>
+          <button
+            title="Copy address"
+            className="absolute z-10 right-2"
+            onClick={copyAddressText}
+          >
             <span className="icon-copy text-2xl text-slate-900 align-bottom"></span>
           </button>
         </div>

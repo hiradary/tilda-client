@@ -2,16 +2,16 @@ import Image from "next/image"
 import { toast } from "react-toastify"
 
 import Button from "components/Button"
-import btcIcon from "assets/icons/crypto/btc.svg"
 import { copyToClipboard } from "utils"
 import { Address } from "types"
 
 interface Props {
   onSend?: () => void
   data: Address
+  isMine: boolean
 }
 
-const AddressCard = ({ onSend = () => null, data }: Props) => {
+const AddressCard = ({ onSend = () => null, data, isMine = false }: Props) => {
   const copyAddressText = async () => {
     try {
       const { address } = data
@@ -22,26 +22,33 @@ const AddressCard = ({ onSend = () => null, data }: Props) => {
     }
   }
 
+  const deleteAddress = () => {}
+
   if (!data) return null
 
   return (
-    <div
-      className="w-full h-16 border border-dashed border-slate-300 rounded-lg flex items-center px-4"
-      role="row"
-    >
-      <Image src={btcIcon} alt="Bitcoin" />
-      <span role="cell" className="font-bold text-slate-900 ml-4">
+    <div className="w-full h-16 border border-dashed border-slate-300 rounded-lg flex items-center px-4">
+      <Image
+        src={data.crypto.logo}
+        width="24"
+        height="24"
+        alt={data.crypto.name}
+      />
+      <span className="font-bold text-slate-900 ml-4">
         {data.crypto.symbol}
       </span>
-      <p role="cell" className="flex-1 pl-8 whitespace-nowrap">
-        {data.address}
-      </p>
-      <button role="cell" onClick={copyAddressText}>
+      <p className="flex-1 pl-8 whitespace-nowrap">{data.address}</p>
+      {isMine && (
+        <button title="Delete address" onClick={deleteAddress}>
+          <span className="icon-remove text-2xl text-red-600"></span>
+        </button>
+      )}
+      <button title="Copy address" onClick={copyAddressText} className="mx-3">
         <span className="icon-copy text-2xl"></span>
       </button>
       <Button
         text="Send"
-        className="w-auto border border-solid border-blue-900 bg-white px-3 ml-3 group hover:bg-blue-900"
+        className="w-auto border border-solid border-blue-900 bg-white px-3 group hover:bg-blue-900"
         textClassName="!text-blue-900 group-hover:!text-white"
         onClick={onSend}
       />

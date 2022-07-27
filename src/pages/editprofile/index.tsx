@@ -100,6 +100,8 @@ const EditProfile = () => {
     dispatch({ type: "set_state", payload: user })
   }, [user])
 
+  console.log({ user })
+
   return (
     <Layout
       title="Edit your profile"
@@ -205,22 +207,21 @@ const EditProfile = () => {
 
             <List
               emptyListTextMessage="No address found!"
-              data={[]}
+              data={user.addresses}
               renderItem={(item, index) => {
                 return (
                   <div className="w-full mb-4" key={index}>
-                    <AddressCard data={null} />
+                    <AddressCard data={item} />
                   </div>
                 )
               }}
-              ListEmptyComponent={
-                <Button
-                  text="Add address"
-                  type="button"
-                  className="mt-4 w-auto px-6"
-                  onClick={showAddressFormModal}
-                />
-              }
+            />
+
+            <Button
+              text="Add address"
+              type="button"
+              className="mt-4 w-full px-6"
+              onClick={showAddressFormModal}
             />
           </div>
         </section>

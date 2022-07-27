@@ -9,12 +9,14 @@ export interface User {
     twitter: string
     website: string
   }
+  addresses: Address[]
 }
 
 export interface Address {
   _id: string
   name: string
   address: string
+  crypto: Cryptocurrency
   createdBy: string
 }
 
@@ -22,4 +24,10 @@ export interface Socials {
   instagram: string
   twitter: string
   website: string
+}
+
+export interface Cryptocurrency {
+  _id: string
+  name: string
+  symbol: string
 }

@@ -95,7 +95,7 @@ const Profile = ({ user, addresses }: Props) => {
           </div>
           <div className="mt-4">
             <Link href="/editprofile">
-              <a className="flex items-center text-sm text-slate-500 border p-2 py-1 rounded hover:text-white hover:bg-slate-500 transition">
+              <a className="flex items-center text-sm text-slate-500 border p-2 py-1 rounded hover:text-white hover:border-slate-500 hover:bg-slate-500 transition">
                 <span className="icon-edit pr-2"></span>
                 Edit profile
               </a>

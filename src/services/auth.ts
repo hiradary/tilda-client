@@ -9,9 +9,7 @@ const authService = {
         .then(({ data }) => {
           resolve(data)
         })
-        .catch((err) => {
-          reject(err)
-        })
+        .catch(reject)
     })
   },
   signIn: (data: SignIn): Promise<SignInResponse> => {
@@ -21,9 +19,7 @@ const authService = {
         .then(({ data }) => {
           resolve(data)
         })
-        .catch((err) => {
-          reject(err)
-        })
+        .catch(reject)
     })
   },
 }

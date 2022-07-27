@@ -18,6 +18,7 @@ export const useAuth = create<UseAuth>((set) => ({
       twitter: "",
       website: "",
     },
+    addresses: [],
   },
 
   setUser: (user) => set(() => ({ user })),

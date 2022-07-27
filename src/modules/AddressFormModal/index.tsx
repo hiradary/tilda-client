@@ -8,6 +8,8 @@ import Input from "components/Input"
 import Button from "components/Button"
 import { useResources } from "hooks/useResources"
 import addressService from "services/address"
+import { useAuth } from "hooks/useAuth"
+import { Address } from "types"
 
 interface SelectOption {
   value: string
@@ -22,6 +24,7 @@ const AddressFormModal = () => {
     null
   )
   const cryptocurrencies = useResources((state) => state.cryptocurrencies)
+  const setAddresses = useAuth((state) => state.setAddresses)
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
@@ -42,6 +45,11 @@ const AddressFormModal = () => {
       .createAddress(formData)
       .then(() => {
         toast.success("You have successfully added a new address!")
+        addressService
+          .getAddresses()
+          .then(({ addresses }: { addresses: Address[] }) => {
+            setAddresses(addresses)
+          })
         Reoverlay.hideModal()
       })
       .catch(() => {

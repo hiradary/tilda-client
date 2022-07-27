@@ -1,9 +1,8 @@
-import { Reoverlay } from "reoverlay"
 import { GetServerSideProps } from "next"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 import AddressCard from "modules/AddressCard"
-import AddressDetailModal from "modules/AddressDetailModal"
 import Layout from "components/Layout"
 import List from "components/List"
 import request from "utils/request"
@@ -38,11 +37,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 const Profile = ({ user, addresses }: Props) => {
+  const router = useRouter()
   const authState = useAuth((state) => state.user)
   const isMine = authState._id === user._id
-  const showAddressDetailModal = (addressItem: Address) => {
-    Reoverlay.showModal(AddressDetailModal, { addressItem })
-  }
 
   return (
     <Layout title="User profile" description="Check out this user's profile.">
@@ -117,7 +114,9 @@ const Profile = ({ user, addresses }: Props) => {
                     <AddressCard
                       isMine={isMine}
                       data={item}
-                      onSend={() => showAddressDetailModal(item)}
+                      onDelete={() => {
+                        router.push(`/editprofile`)
+                      }}
                     />
                   </div>
                 )

@@ -1,17 +1,23 @@
+import { Reoverlay } from "reoverlay"
 import Image from "next/image"
 import { toast } from "react-toastify"
 
+import AddressDetailModal from "modules/AddressDetailModal"
 import Button from "components/Button"
 import { copyToClipboard } from "utils"
 import { Address } from "types"
 
 interface Props {
-  onSend?: () => void
   data: Address
   isMine: boolean
+  onDelete: () => void
 }
 
-const AddressCard = ({ onSend = () => null, data, isMine = false }: Props) => {
+const AddressCard = ({
+  data,
+  isMine = false,
+  onDelete = () => null,
+}: Props) => {
   const copyAddressText = async () => {
     try {
       const { address } = data
@@ -22,7 +28,9 @@ const AddressCard = ({ onSend = () => null, data, isMine = false }: Props) => {
     }
   }
 
-  const deleteAddress = () => {}
+  const showAddressDetailModal = () => {
+    Reoverlay.showModal(AddressDetailModal, { addressItem: data })
+  }
 
   if (!data) return null
 
@@ -39,7 +47,7 @@ const AddressCard = ({ onSend = () => null, data, isMine = false }: Props) => {
       </span>
       <p className="flex-1 pl-8 whitespace-nowrap">{data.address}</p>
       {isMine && (
-        <button title="Delete address" onClick={deleteAddress}>
+        <button title="Delete address" onClick={onDelete}>
           <span className="icon-remove text-2xl text-red-600"></span>
         </button>
       )}
@@ -50,7 +58,7 @@ const AddressCard = ({ onSend = () => null, data, isMine = false }: Props) => {
         text="Send"
         className="w-auto border border-solid border-blue-900 bg-white px-3 group hover:bg-blue-900"
         textClassName="!text-blue-900 group-hover:!text-white"
-        onClick={onSend}
+        onClick={showAddressDetailModal}
       />
     </div>
   )

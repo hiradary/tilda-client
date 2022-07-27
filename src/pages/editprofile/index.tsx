@@ -10,9 +10,10 @@ import List from "components/List"
 import Button from "components/Button"
 import AddressCard from "modules/AddressCard"
 import AddressFormModal from "modules/AddressFormModal"
-import { User, Socials } from "types"
+import { User, Socials, Address } from "types"
 import profileService from "services/profile"
 import { useAuth } from "hooks/useAuth"
+import addressService from "services/address"
 
 interface EditProfileFormFields extends User {
   isLoading: boolean
@@ -57,6 +58,7 @@ const reducer = (
 
 const EditProfile = () => {
   const user = useAuth((state) => state.user)
+  const setAddresses = useAuth((state) => state.setAddresses)
   const initialState: EditProfileFormFields = {
     ...user,
     isLoading: false,
@@ -93,6 +95,22 @@ const EditProfile = () => {
       .catch(() => false)
       .finally(() => {
         changeLoading(false)
+      })
+  }
+
+  const deleteAddress = (address_id: string) => {
+    addressService
+      .deleteAddress(address_id)
+      .then(() => {
+        toast.success(`You have successfully deleted this address!`)
+        addressService
+          .getAddresses()
+          .then(({ addresses }: { addresses: Address[] }) => {
+            setAddresses(addresses)
+          })
+      })
+      .catch(() => {
+        toast.error("There's been a problem deleting your address")
       })
   }
 
@@ -200,7 +218,7 @@ const EditProfile = () => {
         </section>
 
         <section className="w-full flex justify-center mt-12 pb-8">
-          <div className="w-full max-w-2xl px-2" role="table">
+          <div className="w-full max-w-2xl px-2">
             <h2 className="font-bold text-2xl text-slate-900 mb-4">
               Crypto Addresses &nbsp;💸
             </h2>
@@ -211,7 +229,11 @@ const EditProfile = () => {
               renderItem={(item, index) => {
                 return (
                   <div className="w-full mb-4" key={index}>
-                    <AddressCard isMine data={item} />
+                    <AddressCard
+                      isMine
+                      data={item}
+                      onDelete={() => deleteAddress(item._id)}
+                    />
                   </div>
                 )
               }}

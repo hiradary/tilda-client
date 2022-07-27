@@ -25,7 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       .catch(() => false)
     getMyProfile()
       .then(setUser)
-      .catch(() => router.push(`/auth/signin`))
+      .catch(() => {
+        if (router.route !== "/[username]") {
+          router.push(`/auth/signin`)
+        }
+      })
   }, [])
 
   return (

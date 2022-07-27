@@ -28,6 +28,7 @@ request.interceptors.response.use(
     console.log({ error })
     try {
       const errorMessage = error.response.data.message
+      if (errorMessage === "Cannot find a Bearer token") return
       toast.error(errorMessage)
     } catch (err) {
       console.log(err)

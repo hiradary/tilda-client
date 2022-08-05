@@ -10,6 +10,8 @@ import storage from "utils/storage"
 import type { SignUp as ISignUp } from "types/services/auth"
 import { AUTH_TOKEN } from "constants/index"
 import { setRequestAuthToken } from "utils/request"
+import { useAuth } from "hooks/useAuth"
+import { User } from "types"
 
 interface SignUpFormFields extends ISignUp {
   isLoading: boolean
@@ -23,6 +25,7 @@ const SignUp = () => {
     fullname: "",
     isLoading: false,
   })
+  const setUser = useAuth((state) => state.setUser)
 
   const handleStateChange = (key, value) => {
     setState((prevState) => ({ ...prevState, [key]: value }))
@@ -34,16 +37,12 @@ const SignUp = () => {
 
     authService
       .signUp({ email, fullname, password })
-      .then(
-        ({
-          username,
-          token,
-        }: ISignUp & { token: string; username: string }) => {
-          setRequestAuthToken(token)
-          storage.set(AUTH_TOKEN, token)
-          router.push(`/${username}`)
-        }
-      )
+      .then(({ user, token }: { token: string; user: User }) => {
+        storage.set(AUTH_TOKEN, token)
+        setRequestAuthToken(token)
+        setUser(user)
+        router.push(`/${user.username}`)
+      })
       .catch(() => false)
       .finally(() => {
         handleStateChange("isLoading", false)

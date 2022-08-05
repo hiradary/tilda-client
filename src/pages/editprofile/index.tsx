@@ -58,6 +58,7 @@ const reducer = (
 
 const EditProfile = () => {
   const user = useAuth((state) => state.user)
+  const setUser = useAuth((state) => state.setUser)
   const setAddresses = useAuth((state) => state.setAddresses)
   const initialState: EditProfileFormFields = {
     ...user,
@@ -90,6 +91,7 @@ const EditProfile = () => {
       .updateProfile(data)
       .then(() => {
         toast.success(`You have successfully updated your profile!`)
+        setUser({ ...data, addresses: user.addresses })
         router.push(`/${data.username}`)
       })
       .catch(() => false)
@@ -117,8 +119,6 @@ const EditProfile = () => {
   useEffect(() => {
     dispatch({ type: "set_state", payload: user })
   }, [user])
-
-  console.log({ user })
 
   return (
     <Layout
@@ -161,6 +161,7 @@ const EditProfile = () => {
                 onChange={({ target: { value } }) => {
                   handleStateChange("email", value)
                 }}
+                disabled
                 containerClassName="mb-4"
               />
               <Input
